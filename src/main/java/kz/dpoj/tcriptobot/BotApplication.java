@@ -1,5 +1,6 @@
 package kz.dpoj.tcriptobot;
 
+import kz.dpoj.tcriptobot.service.TaskSchedulingService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;

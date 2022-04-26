@@ -1,6 +1,6 @@
 package kz.dpoj.tcriptobot.service;
 
-import kz.dpoj.tcriptobot.buttons.ButtonTypeEnum;
+import kz.dpoj.tcriptobot.enumerate.ButtonTypeEnum;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -20,7 +20,10 @@ public class BotProcessUpdate {
             String[] splitedCallbackQuery = update.getCallbackQuery().getData().split(":");
 
             ButtonTypeEnum type = ButtonTypeEnum.valueOf(splitedCallbackQuery[0]);
-            String query = splitedCallbackQuery[1];
+            String query = null;
+            if(splitedCallbackQuery.length == 2) {
+                query = splitedCallbackQuery[1];
+            }
 
             return handleQueryService.handleCallbackQuery(update.getCallbackQuery().getMessage().getChatId(), type, query, update.getCallbackQuery().getMessage().getMessageId());
         } else if(update.getMessage() != null && update.getMessage().hasText()){
@@ -29,3 +32,5 @@ public class BotProcessUpdate {
         return null;
     }
 }
+
+
