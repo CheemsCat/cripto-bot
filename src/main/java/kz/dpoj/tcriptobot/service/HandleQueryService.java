@@ -60,6 +60,9 @@ public class HandleQueryService {
             case PAGE:
                 return handlePage(chatId, query, messageId);
             case PAIR:
+                botState.setFind(false);
+                botState.setFindPair(null);
+                botStateRepository.save(botState);
                 if(botState.getState().equals(ButtonNameEnum.ADD_SUBSCRIBE.toString())){
                     botState.setPair(query);
                     botStateRepository.save(botState);
@@ -68,14 +71,13 @@ public class HandleQueryService {
                     botState.setChartPair(query);
                     botStateRepository.save(botState);
                     return sendMessageBuilder.buildSendMessage(chatId, "Выберите период", inlineKeyboardMaker.getPeriodKeyboard());
-//                    return chartService.getChartByPair(query, chatId);
                 }else{
                     return handlePair(chatId, query);
                 }
             case BIRJA:
                 return handleBirja(chatId, query);
             case FIND:
-                botState.setState(ButtonTypeEnum.FIND.toString());
+                botState.setFind(true);
                 botStateRepository.save(botState);
                 return sendMessageBuilder.buildSendMessage(chatId, "Введите валюту");
             case DELETE:
@@ -91,10 +93,10 @@ public class HandleQueryService {
 
     public SendMessage handleBirja(Long chatId, String birja) {
         BotState botState = botStateRepository.findByChatId(chatId);
-        if(botState.getState().equals(ButtonNameEnum.ADD_SUBSCRIBE.toString()) || botState.getState().equals(ButtonNameEnum.GET_CHART.toString())) {
-            botState.setBirjaName(birja);
-            botStateRepository.save(botState);
-        }
+//        if(botState.getState().equals(ButtonNameEnum.ADD_SUBSCRIBE.toString()) || botState.getState().equals(ButtonNameEnum.GET_CHART.toString())) {
+        botState.setBirjaName(birja);
+        botStateRepository.save(botState);
+//        }
 
         BirjaInterface birjaType = birjaFabrica.getBirjaByName(birja);
         List<String> pairs  = birjaType.getPairs();
@@ -114,7 +116,7 @@ public class HandleQueryService {
         BirjaInterface birjaType = birjaFabrica.getBirjaByChatId(chatId);
         List<String> pairs = new ArrayList<>();
 
-        if(botState.getState().equals(ButtonTypeEnum.FIND.toString()) && botState.getFindPair() != null)
+        if(botState.getFindPair() != null)
             pairs = birjaType.findByCurrency(botState.getFindPair());
         else
             pairs = birjaType.getPairs();

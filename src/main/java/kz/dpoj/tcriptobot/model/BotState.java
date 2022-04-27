@@ -18,6 +18,8 @@ public class BotState {
 
     private String chartPair;
 
+    private boolean isFind;
+
     public String getId() {
         return id;
     }
@@ -72,5 +74,13 @@ public class BotState {
 
     public void setChartPair(String chartPair) {
         this.chartPair = chartPair;
+    }
+
+    public boolean isFind() {
+        return isFind;
+    }
+
+    public void setFind(boolean find) {
+        isFind = find;
     }
 }

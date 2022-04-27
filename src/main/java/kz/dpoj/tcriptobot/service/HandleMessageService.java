@@ -81,7 +81,7 @@ public class HandleMessageService {
             String subPair = botState.getPair();
             saveSubscriptionAndUpdateBotState(chatId, subPair, botState, uuid);
             return new ScheduleMessage(chatId.toString(), "Вы подписались на пару " + subPair, subPair, messageText, uuid);
-        } else if (botState != null && botState.getState().equals(ButtonTypeEnum.FIND.toString())) {
+        } else if (botState != null && botState.isFind()) {
             List<String> pairs =  findPairs(botState, messageText);
             if(pairs.isEmpty())
                 return sendMessageBuilder.buildSendMessage(chatId, messageFind);
@@ -103,6 +103,8 @@ public class HandleMessageService {
             botStateRepository.save(botSt);
         } else{
             botState.setState(buttonNameEnum.toString());
+            botState.setFind(false);
+            botState.setFindPair(null);
             botStateRepository.save(botState);
         }
     }

@@ -55,6 +55,10 @@ public class InlineKeyboardMaker{
             row.add(button);
         }
 
+        if(!row.isEmpty()){
+            rowList.add(row);
+        }
+
         List<InlineKeyboardButton> paginationRow = new ArrayList<>();
 
         if (page != 1) {

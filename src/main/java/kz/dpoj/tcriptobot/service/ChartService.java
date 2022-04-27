@@ -46,6 +46,8 @@ public class ChartService {
                 .chf("b0,lg,90,EA469EFF,1,03A9F47C,0.4")
                 .chxt("y")
                 .chl(chlString)
+                .chtt(pair)
+                .chts("000000,20")
                 .chlps("align,center|color,000000|rotation,270")
                 .chs("900x500");
         SendPhoto sendPhoto = new SendPhoto();
